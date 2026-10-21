@@ -1,0 +1,24 @@
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { ArrowUp } from 'lucide-react'
+
+export default function ScrollToTop() {
+  const [show, setShow] = useState(false)
+  const { pathname } = useLocation()
+
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  if (!show) return null
+
+  return (
+    <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="fixed bottom-6 right-6 p-3 bg-green-700 text-white rounded-full shadow-lg hover:bg-green-800 z-40" aria-label="Scroll to top">
+      <ArrowUp className="w-5 h-5" />
+    </button>
+  )
+}
