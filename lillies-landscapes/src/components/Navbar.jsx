@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, Leaf } from 'lucide-react'
+import { Menu, X, Phone } from 'lucide-react'
 
 const links = [
   { name: 'Home', to: '/' },
@@ -27,28 +27,39 @@ export default function Navbar() {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
   const isHome = location.pathname === '/'
   const solid = scrolled || !isHome
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${solid ? 'bg-white shadow-lg py-2' : 'bg-transparent py-4'}`}>
+    <>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${solid ? 'bg-white shadow-lg py-2' : 'bg-brand-dark/90 backdrop-blur-sm py-4'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <Leaf className={`w-8 h-8 ${solid ? 'text-green-700' : 'text-white'}`} />
-            <div>
-              <h1 className={`text-lg md:text-xl font-bold leading-tight ${solid ? 'text-green-800' : 'text-white'}`}>Lillies Plants</h1>
-              <p className={`text-[10px] md:text-xs ${solid ? 'text-green-600' : 'text-green-100'}`}>& Landscapes</p>
+
+          <Link to="/" className="flex items-center space-x-3">
+            <img
+              src="/logo.png"
+              alt="Lillies Plants & Landscapes"
+              className={`w-12 h-12 md:w-16 md:h-16 object-contain rounded-full transition-all ${solid ? '' : 'bg-white/10 p-1'}`}
+            />
+            <div className="hidden sm:block">
+              <h1 className={`text-lg md:text-xl font-serif font-bold leading-tight ${solid ? 'text-brand-dark' : 'text-white'}`}>Lillies</h1>
+              <p className={`text-[10px] md:text-xs tracking-widest ${solid ? 'text-brand-gold' : 'text-brand-gold'}`}>PLANTS & LANDSCAPES</p>
             </div>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
             {links.map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }) => `font-medium transition-colors ${isActive ? 'text-green-600' : solid ? 'text-gray-700 hover:text-green-700' : 'text-white hover:text-green-200'}`}>
+              <NavLink key={l.to} to={l.to} className={({ isActive }) => `font-medium transition-colors ${isActive ? 'text-brand-gold' : solid ? 'text-gray-700 hover:text-brand' : 'text-white hover:text-brand-gold'}`}>
                 {l.name}
               </NavLink>
             ))}
-            <a href="tel:0725205243" className={`flex items-center space-x-1 px-4 py-2 rounded-full transition-colors ${solid ? 'bg-green-700 text-white hover:bg-green-800' : 'bg-white text-green-800 hover:bg-green-50'}`}>
+            <a href="tel:0725205243" className={`flex items-center space-x-1 px-4 py-2 rounded-full transition-colors ${solid ? 'bg-brand text-white hover:bg-brand-dark' : 'bg-brand-gold text-brand-dark hover:bg-yellow-500'}`}>
               <Phone className="w-4 h-4" />
               <span>0725 205 243</span>
             </a>
@@ -60,18 +71,40 @@ export default function Navbar() {
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden bg-white shadow-lg mt-2">
-          <div className="px-4 pt-2 pb-4 space-y-1">
-            {links.map((l) => (
-              <NavLink key={l.to} to={l.to} onClick={() => setOpen(false)} className={({ isActive }) => `block px-3 py-2 rounded-md ${isActive ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-green-50'}`}>
-                {l.name}
-              </NavLink>
-            ))}
-            <a href="tel:0725205243" className="block px-3 py-2 bg-green-700 text-white rounded-md text-center mt-2">Call 0725 205 243</a>
-          </div>
-        </div>
-      )}
     </nav>
+
+    {open && (
+      <div className="md:hidden fixed inset-0 z-[60] bg-brand-dark flex flex-col">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Link to="/" onClick={() => setOpen(false)} className="flex items-center space-x-3">
+            <img src="/logo.png" alt="Lillies Plants & Landscapes" className="w-12 h-12 object-contain rounded-full bg-white/10 p-1" />
+            <div>
+              <p className="text-lg font-serif font-bold text-white leading-tight">Lillies</p>
+              <p className="text-[10px] tracking-widest text-brand-gold">PLANTS & LANDSCAPES</p>
+            </div>
+          </Link>
+          <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2">
+            <X className="w-8 h-8 text-white" />
+          </button>
+        </div>
+
+        <div className="flex-1 flex flex-col justify-center px-8 space-y-2 overflow-y-auto">
+          {links.map((l) => (
+            <NavLink key={l.to} to={l.to} onClick={() => setOpen(false)}
+              className={({ isActive }) => `block py-4 text-3xl font-serif font-bold border-b border-white/10 ${isActive ? 'text-brand-gold' : 'text-white hover:text-brand-gold'}`}>
+              {l.name}
+            </NavLink>
+          ))}
+        </div>
+
+        <div className="px-8 pb-10 pt-4">
+          <a href="tel:0725205243" className="flex items-center justify-center space-x-2 w-full py-4 bg-brand-gold text-brand-dark rounded-full font-bold text-lg">
+            <Phone className="w-5 h-5" />
+            <span>Call 0725 205 243</span>
+          </a>
+        </div>
+      </div>
+    )}
+    </>
   )
 }

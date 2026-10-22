@@ -1,21 +1,23 @@
-import { Leaf, TreePine, Sun, Flower2, Droplets, MapPin } from 'lucide-react'
+import { useState } from 'react'
+import PhotoModal, { img } from '../components/PhotoModal'
 
 const services = [
-  { icon: <Leaf className="w-8 h-8" />, title: 'Landscape Design & Master Planning', desc: '3D & 2D landscape plans tailored to your property.' },
-  { icon: <TreePine className="w-8 h-8" />, title: 'Lawn Installation & Maintenance', desc: 'Kikuyu, Pemba (Arabian), Zimbabwe & Maadi River grass.' },
-  { icon: <Sun className="w-8 h-8" />, title: 'Cabro Paving & Driveways', desc: 'Parking, walkways, heavy-duty & light-duty paving.' },
-  { icon: <Flower2 className="w-8 h-8" />, title: 'Flower Beds & Rose Gardens', desc: 'Rose gardens, herb gardens, pepper & kitchen gardens.' },
-  { icon: <Droplets className="w-8 h-8" />, title: 'Irrigation Systems', desc: 'Garden maintenance, pruning and irrigation installation.' },
-  { icon: <TreePine className="w-8 h-8" />, title: 'Bamboo Hedges & Privacy', desc: 'Bamboo, Duranta Gold, Kei Apple, Cypress & Boxwood.' },
-  { icon: <Sun className="w-8 h-8" />, title: 'Terrazzo & Gazebo Construction', desc: 'Gazebo building, terrazzo finishing & pool surrounds.' },
-  { icon: <Leaf className="w-8 h-8" />, title: 'Trees, Shrubs & Indoor Plants', desc: 'Supply and planting of quality trees, shrubs & indoor plants.' },
-  { icon: <MapPin className="w-8 h-8" />, title: 'Generator Area Beautification', desc: 'Compound finishing and generator area landscaping.' },
-  { icon: <Sun className="w-8 h-8" />, title: 'Slabs & White Pebbles', desc: '400x400mm & 600x600mm grey slabs with white pebble designs.' },
-  { icon: <TreePine className="w-8 h-8" />, title: 'Swimming Pool Landscaping', desc: 'Landscaping and surrounds for swimming pools.' },
-  { icon: <Droplets className="w-8 h-8" />, title: 'Garden Maintenance', desc: 'Ongoing pruning, weeding and garden care contracts.' },
+  { title: 'Landscape Design & Master Planning', photos: ['2D.jpg'], desc: '3D & 2D landscape plans tailored to your property.' },
+  { title: 'Lawn Installation & Maintenance', photos: ['grass/kikuyugrass.jpg', 'grass/zimbabwegrass.jpg', 'grass/maadirivergrass.jpeg', 'grass/pembagrass.jpeg'], desc: 'Kikuyu, Pemba (Arabian), Zimbabwe & Maadi River grass.' },
+  { title: 'Cabro Paving & Driveways', photos: ['cabrosdriveway.jpeg', 'cabros.jpeg'], desc: 'Parking, walkways, heavy-duty & light-duty paving.' },
+  { title: 'Flower Beds & Rose Gardens', photos: ['flowerbed1.jpg', 'flowerbed2.jpg', 'flower bed.jpeg'], desc: 'Rose gardens, herb gardens, pepper & kitchen gardens.' },
+  { title: 'Irrigation Systems', photos: ['irrigationsystem.jpg', 'irrigationsystem1.jpg'], desc: 'Garden maintenance, pruning and irrigation installation.' },
+  { title: 'Bamboo Hedges & Privacy', photos: ['hedge/bamboohedge.jpg', 'hedge/durantahedge.jpg', 'hedge/boxwoodhedge.jpg', 'hedge/kei.jpeg'], desc: 'Bamboo, Duranta Gold, Kei Apple, Cypress & Boxwood.' },
+  { title: 'Terrazzo & Gazebo Construction', photos: ['gazebo.jpeg', 'terrazo.jpg', 'terrazo.jpeg'], desc: 'Gazebo building, terrazzo finishing & pool surrounds.' },
+  { title: 'Trees, Shrubs & Indoor Plants', photos: ['trees/jacaranda.jpg', 'trees/Frangipani.jpeg', 'indoor1.jpg'], desc: 'Supply and planting of quality trees, shrubs & indoor plants.' },
+  { title: 'Generator Area Beautification', photos: ['generator area.jpg'], desc: 'Compound finishing and generator area landscaping.' },
+  { title: 'Slabs & White Pebbles', photos: ['Slabs & White Pebbles.jpeg', 'Slabs & White Pebbles1.jpeg'], desc: '400x400mm & 600x600mm grey slabs with white pebble designs.' },
+  { title: 'Swimming Pool Landscaping', photos: ['swimmingpool.jpg'], desc: 'Landscaping and surrounds for swimming pools.' },
+  { title: 'Garden Maintenance', photos: ['gardenmaintenance.jpeg'], desc: 'Ongoing pruning, weeding and garden care contracts.' },
 ]
 
 export default function Services() {
+  const [open, setOpen] = useState(null)
   return (
     <section className="pt-28 pb-20 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,10 +28,15 @@ export default function Services() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => (
-            <div key={i} className="p-6 bg-stone-50 rounded-xl hover:shadow-lg hover:-translate-y-1 transition-all border border-stone-100">
-              <div className="text-green-700 mb-4">{s.icon}</div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{s.title}</h3>
-              <p className="text-gray-600 text-sm">{s.desc}</p>
+            <div key={i} className="bg-stone-50 rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all border border-stone-100">
+              <button onClick={() => setOpen({ title: s.title, photos: s.photos })} className="block w-full h-48 relative">
+                <img src={img(s.photos[0])} alt={s.title} loading="lazy" className="w-full h-full object-cover" />
+                {s.photos.length > 1 && <span className="absolute bottom-2 right-2 text-xs bg-black/60 text-white rounded-full px-2 py-0.5">{s.photos.length} photos</span>}
+              </button>
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{s.title}</h3>
+                <p className="text-gray-600 text-sm">{s.desc}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -39,6 +46,7 @@ export default function Services() {
           <a href="tel:0725205243" className="inline-block px-8 py-3 bg-green-500 rounded-full font-semibold hover:bg-green-400">Call 0725 205 243</a>
         </div>
       </div>
+      {open && <PhotoModal {...open} onClose={() => setOpen(null)} />}
     </section>
   )
 }

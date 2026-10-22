@@ -1,4 +1,3 @@
-import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 
 export default function Contact() {
   return (
@@ -11,23 +10,23 @@ export default function Contact() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div className="text-center p-6 bg-green-800/50 rounded-xl">
-            <Phone className="w-10 h-10 text-green-300 mx-auto mb-4" />
+            
             <h3 className="font-semibold text-lg mb-2">Phone / WhatsApp</h3>
             <a href="tel:0725205243" className="text-green-200 hover:text-white">0725 205 243</a>
           </div>
           <div className="text-center p-6 bg-green-800/50 rounded-xl">
-            <Mail className="w-10 h-10 text-green-300 mx-auto mb-4" />
+            
             <h3 className="font-semibold text-lg mb-2">Email</h3>
             <a href="mailto:lillieslandscapes@gmail.com" className="text-green-200 hover:text-white text-sm break-all">lillieslandscapes@gmail.com</a>
           </div>
           <div className="text-center p-6 bg-green-800/50 rounded-xl">
-            <MapPin className="w-10 h-10 text-green-300 mx-auto mb-4" />
+            
             <h3 className="font-semibold text-lg mb-2">Location</h3>
             <p className="text-green-200">Kiambu, Central Province, Kenya</p>
             <p className="text-green-300 text-sm mt-1">Serving Nairobi, Kiambu, Kajiado, Machakos & Countrywide</p>
           </div>
           <div className="text-center p-6 bg-green-800/50 rounded-xl">
-            <Clock className="w-10 h-10 text-green-300 mx-auto mb-4" />
+            
             <h3 className="font-semibold text-lg mb-2">Working Hours</h3>
             <p className="text-green-200">Mon – Sat</p>
             <p className="text-green-300 text-sm mt-1">7:30 AM – 6:00 PM</p>
@@ -51,7 +50,7 @@ export default function Contact() {
             </form>
           </div>
           <div className="bg-green-800/50 rounded-2xl p-8 flex flex-col justify-center text-center">
-            <Phone className="w-12 h-12 text-green-300 mx-auto mb-4" />
+            
             <h2 className="text-2xl font-bold mb-2">Prefer to chat?</h2>
             <p className="text-green-200 mb-6">Reach us directly on WhatsApp for the fastest response.</p>
             <a href="https://wa.me/254725205243" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-3 bg-green-500 rounded-full font-semibold hover:bg-green-400">Open WhatsApp</a>
