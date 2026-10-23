@@ -1,3 +1,13 @@
+// Ascending circle gallery (design box is 330 x 660; positions/sizes in px, scaled by CSS)
+const bubbles = [
+  { src: '/hero/boxwood.jpg',    alt: 'Clipped boxwood shrubs',      size: 80,  x: 0,   y: 580, delay: '0s',   dur: '7s'  },
+  { src: '/hero/italian.jpg',    alt: 'Italian cypress trees',       size: 105, x: 40,  y: 505, delay: '1.2s', dur: '8s'  },
+  { src: '/hero/lawn-mower.jpg', alt: 'Trimming a lush lawn',        size: 135, x: 95,  y: 400, delay: '0.6s', dur: '9s'  },
+  { src: '/hero/thuja.jpg',      alt: 'Golden thuja tree',           size: 165, x: 125, y: 300, delay: '2s',   dur: '7.5s' },
+  { src: '/hero/royal-palm.jpg', alt: 'Royal palm under blue sky',   size: 190, x: 105, y: 165, delay: '1.6s', dur: '10s' },
+  { src: '/hero/nice-lawn.jpg',  alt: 'Manicured lawn with hedges',  size: 230, x: 95,  y: 10,  delay: '0.3s', dur: '8.5s' },
+]
+
 const highlights = [
   { title: 'Landscaping', desc: 'Design & installation' },
   { title: 'Plants', desc: 'Wide variety available' },
@@ -8,11 +18,23 @@ const highlights = [
 export default function Home() {
   return (
     <>
-      <section className="relative min-h-screen py-28 flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand to-brand-dark"></div>
+      <section className="relative min-h-screen py-28 flex items-center justify-center overflow-hidden">
+        {/* Hero background photo + dark green overlay for readability */}
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/hero/background.jpg')" }}></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/90 via-brand/75 to-brand-dark/90"></div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-64 h-64 border-2 border-brand-gold rounded-full"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 border-2 border-brand-gold rounded-full"></div>
+        </div>
+
+        {/* Decorative ascending circle gallery — absolutely positioned on the right, never affects centering */}
+        <div className="hero-gallery hidden xl:block" aria-hidden="true">
+          {bubbles.map((b) => (
+            <div key={b.src} className="hero-bubble"
+              style={{ width: b.size, height: b.size, left: b.x, top: b.y, animationDelay: b.delay, animationDuration: b.dur }}>
+              <img src={b.src} alt={b.alt} loading="lazy" />
+            </div>
+          ))}
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
