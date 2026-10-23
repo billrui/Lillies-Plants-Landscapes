@@ -24,8 +24,15 @@ export default function PhotoModal({ title, photos, onClose }) {
     return () => window.removeEventListener('keydown', onKey)
   })
 
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prevOverflow }
+  }, [])
+
   return (
-    <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] bg-black/80 overflow-y-auto" onClick={onClose}>
+     <div className="min-h-full flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl overflow-hidden max-w-3xl w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-5 py-3 border-b">
           <h3 className="font-semibold text-gray-800">{title}</h3>
@@ -45,6 +52,7 @@ export default function PhotoModal({ title, photos, onClose }) {
           {many && <span>{i + 1} / {photos.length}</span>}
         </div>
       </div>
+     </div>
     </div>
   )
 }

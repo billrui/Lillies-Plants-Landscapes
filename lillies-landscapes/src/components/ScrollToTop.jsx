@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { ArrowUp } from 'lucide-react'
 
 export default function ScrollToTop() {
   const [show, setShow] = useState(false)
-  const { pathname } = useLocation()
-
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
-
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 500)
     window.addEventListener('scroll', onScroll)

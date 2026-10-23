@@ -1,39 +1,51 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X, Phone } from 'lucide-react'
 
 const links = [
-  { name: 'Home', to: '/' },
-  { name: 'Services', to: '/services' },
-  { name: 'Plants', to: '/plants' },
-  { name: 'Cabro & Slabs', to: '/cabro' },
-  { name: 'Contact', to: '/contact' },
+  { name: 'Home', id: 'home' },
+  { name: 'Services', id: 'services' },
+  { name: 'Plants', id: 'plants' },
+  { name: 'Cabro & Slabs', id: 'cabro' },
+  { name: 'Contact', id: 'contact' },
 ]
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const location = useLocation()
+  const [active, setActive] = useState('home')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50)
+      let current = links[0].id
+      for (const l of links) {
+        const el = document.getElementById(l.id)
+        if (el && el.getBoundingClientRect().top <= 120) current = l.id
+      }
+      setActive(current)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
-    setOpen(false)
-    window.scrollTo(0, 0)
-  }, [location.pathname])
-
-  useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
 
-  const isHome = location.pathname === '/'
-  const solid = scrolled || !isHome
+  const solid = scrolled
+
+  // Smooth-scroll to a section of the single page (works with the mobile menu too)
+  const go = (e, id) => {
+    e.preventDefault()
+    setOpen(false)
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      history.replaceState(null, '', '#' + id)
+    }, 50)
+  }
 
   return (
     <>
@@ -41,7 +53,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
 
-          <Link to="/" className="flex items-center space-x-3">
+          <a href="#home" onClick={(e) => go(e, 'home')} className="flex items-center space-x-3">
             <img
               src="/logo.png"
               alt="Lillies Plants & Landscapes"
@@ -51,13 +63,13 @@ export default function Navbar() {
               <h1 className={`text-lg md:text-xl font-serif font-bold leading-tight ${solid ? 'text-brand-dark' : 'text-white'}`}>Lillies</h1>
               <p className={`text-[10px] md:text-xs tracking-widest ${solid ? 'text-brand-gold' : 'text-brand-gold'}`}>PLANTS & LANDSCAPES</p>
             </div>
-          </Link>
+          </a>
 
           <div className="hidden md:flex items-center space-x-8">
             {links.map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }) => `font-medium transition-colors ${isActive ? 'text-brand-gold' : solid ? 'text-gray-700 hover:text-brand' : 'text-white hover:text-brand-gold'}`}>
+              <a key={l.id} href={'#' + l.id} onClick={(e) => go(e, l.id)} className={`font-medium transition-colors ${active === l.id ? 'text-brand-gold' : solid ? 'text-gray-700 hover:text-brand' : 'text-white hover:text-brand-gold'}`}>
                 {l.name}
-              </NavLink>
+              </a>
             ))}
             <a href="tel:0725205243" className={`flex items-center space-x-1 px-4 py-2 rounded-full transition-colors ${solid ? 'bg-brand text-white hover:bg-brand-dark' : 'bg-brand-gold text-brand-dark hover:bg-yellow-500'}`}>
               <Phone className="w-4 h-4" />
@@ -76,13 +88,13 @@ export default function Navbar() {
     {open && (
       <div className="md:hidden fixed inset-0 z-[60] bg-brand-dark flex flex-col">
         <div className="flex items-center justify-between px-4 py-3">
-          <Link to="/" onClick={() => setOpen(false)} className="flex items-center space-x-3">
+          <a href="#home" onClick={(e) => go(e, 'home')} className="flex items-center space-x-3">
             <img src="/logo.png" alt="Lillies Plants & Landscapes" className="w-12 h-12 object-contain rounded-full bg-white/10 p-1" />
             <div>
               <p className="text-lg font-serif font-bold text-white leading-tight">Lillies</p>
               <p className="text-[10px] tracking-widest text-brand-gold">PLANTS & LANDSCAPES</p>
             </div>
-          </Link>
+          </a>
           <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2">
             <X className="w-8 h-8 text-white" />
           </button>
@@ -90,10 +102,10 @@ export default function Navbar() {
 
         <div className="flex-1 flex flex-col justify-center px-8 space-y-2 overflow-y-auto">
           {links.map((l) => (
-            <NavLink key={l.to} to={l.to} onClick={() => setOpen(false)}
-              className={({ isActive }) => `block py-4 text-3xl font-serif font-bold border-b border-white/10 ${isActive ? 'text-brand-gold' : 'text-white hover:text-brand-gold'}`}>
+            <a key={l.id} href={'#' + l.id} onClick={(e) => go(e, l.id)}
+              className={`block py-4 text-3xl font-serif font-bold border-b border-white/10 ${active === l.id ? 'text-brand-gold' : 'text-white hover:text-brand-gold'}`}>
               {l.name}
-            </NavLink>
+            </a>
           ))}
         </div>
 

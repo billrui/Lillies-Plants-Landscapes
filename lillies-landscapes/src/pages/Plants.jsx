@@ -48,6 +48,7 @@ const plants = {
   ],
   'Trees & Palms': [
     ['Palm Trees', palms],
+    ['Ornamental Cypress', cypress],
     ['Crotons', ['trees/crotons.jpeg']],
     ['Agave', ['trees/Agave.jpeg']],
     ['Aloe Vera', ['trees/Aloe vera.jpg']],

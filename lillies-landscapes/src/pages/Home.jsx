@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 const highlights = [
   { title: 'Landscaping', desc: 'Design & installation' },
   { title: 'Plants', desc: 'Wide variety available' },
@@ -10,14 +8,14 @@ const highlights = [
 export default function Home() {
   return (
     <>
-      <section className="relative h-screen flex items-center justify-center">
+      <section className="relative min-h-screen py-28 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand to-brand-dark"></div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-64 h-64 border-2 border-brand-gold rounded-full"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 border-2 border-brand-gold rounded-full"></div>
         </div>
 
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16">
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <img src="/logo.png" alt="Lillies Logo" className="w-32 h-32 md:w-40 md:h-40 object-contain mx-auto mb-6 drop-shadow-2xl rounded-full border-4 border-brand-gold/30" />
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-4">
@@ -34,15 +32,15 @@ export default function Home() {
 
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/services" className="px-8 py-3 bg-brand-gold text-brand-dark rounded-full font-bold hover:bg-yellow-500 transition-colors shadow-lg">
+              <a href="#services" className="px-8 py-3 bg-brand-gold text-brand-dark rounded-full font-bold hover:bg-yellow-500 transition-colors shadow-lg">
                 Explore Services
-              </Link>
-              <Link to="/plants" className="px-8 py-3 bg-brand-gold text-brand-dark rounded-full font-bold hover:bg-yellow-500 transition-colors shadow-lg">
+              </a>
+              <a href="#plants" className="px-8 py-3 bg-brand-gold text-brand-dark rounded-full font-bold hover:bg-yellow-500 transition-colors shadow-lg">
                 Plants
-              </Link>
-              <Link to="/cabro" className="px-8 py-3 bg-brand-gold text-brand-dark rounded-full font-bold hover:bg-yellow-500 transition-colors shadow-lg">
+              </a>
+              <a href="#cabro" className="px-8 py-3 bg-brand-gold text-brand-dark rounded-full font-bold hover:bg-yellow-500 transition-colors shadow-lg">
                 Cabro & Slabs
-              </Link>
+              </a>
             </div>
             <a
               href="https://wa.me/254725205243?text=Hello%20Lillies%2C%20I%27d%20like%20a%20free%20quote."

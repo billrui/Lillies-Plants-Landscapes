@@ -2,5 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+html { scroll-behavior: smooth; overflow-y: auto; overflow-x: hidden; }
+body { overflow-y: auto; overflow-x: hidden; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+
+/* Section-by-section scrolling: Home → Services → Plants → Cabro → Contact.
+   "proximity" snaps to the next section when you scroll near it, but still
+   lets tall sections (like Plants) scroll freely instead of getting stuck. */
+html { scroll-snap-type: y proximity; }
+main > div { scroll-snap-align: start; }
+footer { scroll-snap-align: end; }
